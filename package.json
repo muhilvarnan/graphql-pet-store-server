@@ -1,0 +1,26 @@
+{
+  "name": "graphql-pet-store-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/muhilvarnan/graphql-pet-store-server.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/muhilvarnan/graphql-pet-store-server/issues"
+  },
+  "homepage": "https://github.com/muhilvarnan/graphql-pet-store-server#readme",
+  "dependencies": {
+    "apollo-server": "^2.4.8",
+    "apollo-server-express": "^2.4.8",
+    "axios": "^0.18.0",
+    "graphql": "^14.2.1"
+  }
+}
