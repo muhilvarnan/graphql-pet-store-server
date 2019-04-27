@@ -1,17 +1,23 @@
 const { ApolloServer, gql } = require("apollo-server");
 const CatAPI = require("./the_cat_api");
 const CatBreed = require("./resolvers/CatBreed");
+const Mutation = require("./resolvers/Mutation");
+const Subscription = require("./resolvers/Subscription");
 
 const resolvers = {
   Query: {
-    catBreeds: () => CatAPI.getBreeds()
+    catBreeds: () => CatAPI.getBreeds(),
+    favourites: () => CatAPI.getFavourites()
   },
-  CatBreed
+  CatBreed,
+  Mutation,
+  Subscription
 };
 
 const typeDefs = gql`
   type Query {
     catBreeds: [CatBreed]
+    favourites: [Favourite]
   }
 
   type Image {
@@ -32,6 +38,24 @@ const typeDefs = gql`
     health_issues: Boolean!
     hypoallergenic: Boolean!
     images: [Image]
+  }
+
+  type Favourite {
+    id: ID!
+    image: Image
+  }
+
+  type Mutation {
+    makeFavouriteImage(image_id: ID!): Response!
+  }
+
+  type Response {
+    id: ID!
+    message: String!
+  }
+
+  type Subscription {
+    newMakeFavouriteImage: Image!
   }
 `;
 
