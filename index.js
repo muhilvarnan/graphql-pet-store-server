@@ -1,14 +1,14 @@
 const { ApolloServer, gql } = require("apollo-server");
-const CatAPI = require("./the_cat_api");
+const knex = require("./knex");
+const _ = require("lodash");
+
 const CatBreed = require("./resolvers/CatBreed");
+const Query = require("./resolvers/Query");
 const Mutation = require("./resolvers/Mutation");
 const Subscription = require("./resolvers/Subscription");
 
 const resolvers = {
-  Query: {
-    catBreeds: () => CatAPI.getBreeds(),
-    favourites: () => CatAPI.getFavourites()
-  },
+  Query,
   CatBreed,
   Mutation,
   Subscription
@@ -17,12 +17,17 @@ const resolvers = {
 const typeDefs = gql`
   type Query {
     catBreeds: [CatBreed]
-    favourites: [Favourite]
+    catBreedDetail(breed_name: String!): CatBreed
   }
 
   type Image {
     id: ID!
     url: String!
+  }
+
+  type Comment {
+    id: ID!
+    comment: String!
   }
 
   type CatBreed {
@@ -38,33 +43,42 @@ const typeDefs = gql`
     health_issues: Boolean!
     hypoallergenic: Boolean!
     images: [Image]
-  }
-
-  type Favourite {
-    id: ID!
-    image: Image
+    comments: [Comment]
   }
 
   type Mutation {
-    makeFavouriteImage(image_id: ID!): Response!
-  }
-
-  type Response {
-    id: ID!
-    message: String!
+    addComment(breed_id: ID!, comment: String!): Comment!
   }
 
   type Subscription {
-    newMakeFavouriteImage: Image!
+    addComment(breed_id: ID!): Comment!
   }
 `;
 
 const server = new ApolloServer({
-  // These will be defined for both new or existing servers
   typeDefs,
   resolvers
 });
 
-server.listen().then(({ url }) => {
+async function runDBMigration() {
+  const [index, migratedFiles] = await knex.migrate.latest();
+
+  if (_.isEmpty(migratedFiles)) {
+    console.log("No New migrations");
+  } else {
+    console.log("migratedFiles", migratedFiles);
+  }
+}
+const init = async () => {
+  await runDBMigration();
+
+  const { url } = await server.listen();
   console.log(`🚀 Server ready at ${url}`);
+};
+
+process.on("unhandledRejection", err => {
+  console.log(err);
+  process.exit(1);
 });
+
+init();

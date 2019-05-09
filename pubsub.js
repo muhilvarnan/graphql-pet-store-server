@@ -1,7 +1,7 @@
 const { PubSub } = require("apollo-server");
 
 const EVENT_NAMES = {
-  MAKE_FAVOURITE_IMAGE: "MAKE_FAVOURITE_IMAGE"
+  ADD_COMMENT: "ADD_COMMENT"
 };
 
 module.exports = {

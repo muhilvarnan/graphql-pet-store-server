@@ -1,13 +1,18 @@
-const CatAPI = require("../the_cat_api");
+const { withFilter } = require("apollo-server");
 const { pubSub, EVENT_NAMES } = require("../pubsub");
-
-const newMakeFavouriteImage = {
-  subscribe: () => pubSub.asyncIterator(EVENT_NAMES.MAKE_FAVOURITE_IMAGE),
+const { }
+const addComment = {
+  subscribe: withFilter(
+    () => pubSub.asyncIterator(EVENT_NAMES.ADD_COMMENT),
+    (payload, variables) => {
+      return payload.breed_id === variables.breed_id;
+    }
+  ),
   resolve: payload => {
-    return CatAPI.getImageByID(payload.image_id);
+    return payload;
   }
 };
 
 module.exports = {
-  newMakeFavouriteImage
+  addComment
 };

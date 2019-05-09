@@ -21,6 +21,10 @@
     "apollo-server": "^2.4.8",
     "apollo-server-express": "^2.4.8",
     "axios": "^0.18.0",
-    "graphql": "^14.2.1"
+    "camelize": "^1.0.0",
+    "graphql": "^14.2.1",
+    "knex": "^0.16.5",
+    "lodash": "^4.17.11",
+    "pg": "^7.10.0"
   }
 }
