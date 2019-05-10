@@ -1,6 +1,6 @@
 const { withFilter } = require("apollo-server");
 const { pubSub, EVENT_NAMES } = require("../pubsub");
-const { }
+
 const addComment = {
   subscribe: withFilter(
     () => pubSub.asyncIterator(EVENT_NAMES.ADD_COMMENT),

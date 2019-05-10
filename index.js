@@ -18,6 +18,7 @@ const typeDefs = gql`
   type Query {
     catBreeds: [CatBreed]
     catBreedDetail(breed_name: String!): CatBreed
+    catBreedComments(breed_id: ID!): [Comment]
   }
 
   type Image {
@@ -43,7 +44,6 @@ const typeDefs = gql`
     health_issues: Boolean!
     hypoallergenic: Boolean!
     images: [Image]
-    comments: [Comment]
   }
 
   type Mutation {
